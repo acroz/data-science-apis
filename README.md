@@ -29,6 +29,17 @@ To generate the sqlite database:
 $ python gendb.py
 ```
 
+You will also need to install redis and have it running for the app to function
+properly.
+
+With homebrew:
+
+```sh
+$ brew install redis
+$ brew tap homebrew/services  # If not done previously
+$ brew services start redis
+```
+
 ## Running the Server
 
 Run the api server with:
@@ -42,6 +53,8 @@ In a separate terminal(s), run one or more python-rq workers:
 ```sh
 rq worker
 ```
+
+Also make sure that redis-server is running.
 
 ## Calling the API
 
