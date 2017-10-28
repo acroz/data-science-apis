@@ -1,6 +1,7 @@
-import numpy
 import time
-from sklearn.datasets import make_classification
+
+import numpy
+import pandas
 from sklearn.linear_model import LogisticRegression
 
 from dsapi.core import db
@@ -8,16 +9,15 @@ from dsapi.core import db
 
 def _train_model():
 
-    X, y = make_classification(
-        n_samples=100,
-        n_features=2,
-        n_classes=2,
-        n_informative=2,
-        n_redundant=0
-    )
+    data = pandas.read_sql('SELECT * FROM data', db.engine)
 
+    # Extract features and classes from query result
+    features = numpy.array(data[['feature_a', 'feature_b']])
+    classes = numpy.array(data['class'])
+
+    # Train the model
     model = LogisticRegression()
-    model.fit(X, y)
+    model.fit(features, classes)
 
     return model
 
