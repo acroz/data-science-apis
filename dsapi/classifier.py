@@ -8,6 +8,13 @@ from dsapi.core import db
 
 
 def _train_model():
+    """Train a logistic regression classifier using data in the database.
+
+    Returns
+    -------
+    sklearn.linear_model.LogisticRegression
+        The trained classifier
+    """
 
     data = pandas.read_sql('SELECT * FROM data', db.engine)
 
@@ -22,6 +29,10 @@ def _train_model():
     return model
 
 
+# Prepare a model at module import time
+# This approach implies that the data we are training to in _train_model never
+# changes. Where this assumption is not valid, more complex caching logic or
+# retraining the model for each request may be necessary.
 MODEL = _train_model()
 
 
@@ -56,8 +67,18 @@ def predict_slow(feature_a, feature_b):
 
 
 def predict_slow_and_store(id, feature_a, feature_b):
-    """Call `predict_slow()` and store the result in the database."""
+    """Call `predict_slow()` and store the result in the database.
+
+    Parameters
+    ----------
+    id : uuid.UUID
+        The id to store the result as in the database
+    feature_a : float
+    feature_b : float
+    """
+
     predicted_class, _ = predict_slow(feature_a, feature_b)
+
     db.engine.execute(
         'INSERT INTO results (id, class) VALUES (:id, :class_)',
         id=str(id),
