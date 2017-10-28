@@ -102,7 +102,7 @@ The `/predict-slow` endpoint accepts a `POST` request with the features in the
 body and returns an ID field that can be redeemed later for the result:
 
 ```python
->>> response = requests.post()
+>>> response = requests.post(
 >>>     'http://localhost:8000/predict-slow',
 >>>     json={'feature_a': 1.3, 'feature_b': -3.2},
 >>>     headers={'X-API-Key': 'PE1tlZti1TXJ9nTIri30OnPcquDUpjVrayieAAzY'}
