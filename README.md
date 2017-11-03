@@ -125,14 +125,14 @@ To check for the result:
 
 Before the result is ready this will yield a `404 NOT FOUND`:
 
-```
+```python
 >>> response.status_code
 404
 ```
 
 Once ready, the result will be returned with a `200 OK` response:
 
-```
+```python
 >>> response.status_code
 200
 >>> response.json()
